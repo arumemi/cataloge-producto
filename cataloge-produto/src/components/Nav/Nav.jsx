@@ -29,7 +29,9 @@ function Nav() {
         };
 
         const totalPrice = cartItems.reduce((sum, item) => {
-            return sum + parseFloat(item.price.replace('₦', ''));
+            const numeric = parseFloat(String(item.price).replace(/[₦,]/g, '')) || 0;
+            const qty = item.quantity || 1;
+            return sum + numeric * qty;
         }, 0).toFixed(2);
 
             
@@ -48,6 +50,7 @@ function Nav() {
                  className='form-control'
                  placeholder='Pesquisar produto . . .'
                  style={{maxWidth:'500px'}}
+                 onChange={(e) => window.dispatchEvent(new CustomEvent('searchQueryChanged', { detail: e.target.value }))}
                  />
             </div>
             <div className="cart-icon position-relative" style={{cursor:'pointer'}} onClick={() => setIsCartOpen(true)}>
@@ -63,27 +66,27 @@ function Nav() {
                 <h5 className='m-0'>Your cart</h5>
                 <button className='btn btn-sm btn-outline-dark bg-dark text-white' onClick={() => setIsCartOpen(false)}>Close</button>
                      </div>
-                     <div className='cart-body p-3'>
-                         {cartItems.length === 0 ? (
-                            <p className='alert alert-danger'>Your Cart Is Empty</p>
-                                ) : (
-                            cartItems.map((items) => (
-                                <div key={items.id} className='d-flex mb-3 align-items-center'>
-                                    <img src={items.image} width={60} height={60} className='m-3 rounded' alt=""/>
-                                    <div className="flex-grow-1">
-                                        <h6 className='mb-1'>{items.product.name}</h6>
-                                        <p className="mb-1">{items.price}</p>
+                    <div className='cart-body p-3'>
+                             {cartItems.length === 0 ? (
+                                <p className='alert alert-danger'>Your Cart Is Empty</p>
+                                    ) : (
+                                cartItems.map((item) => (
+                                    <div key={item.id} className='d-flex mb-3 align-items-center'>
+                                        {item.image && <img src={item.image} width={60} height={60} className='m-3 rounded' alt=""/>}
+                                        <div className="flex-grow-1">
+                                            <h6 className='mb-1'>{item.name}</h6>
+                                            <p className="mb-1">{item.price} x {item.quantity || 1}</p>
+                                        </div>
+                                        <button className="btn btn-sm bg-dark text-white" onClick={() => removeItem(item.id)}>X</button>
                                     </div>
-                                    <button className="btn btn-sm bg-dark text-white" onClick={() => removeItem(items.id)}>X</button>
-                                </div>
-    
-                            ))
-                        ) }
-                     </div>
+
+                                ))
+                            ) } 
+                         </div>
                      {cartItems.length > 0 && (
                         <div className='cart-footer p-2 border-top'>
                         <h6>Total : ₦{totalPrice}</h6>
-                        <button className="btn btn-dark w-100 mt-2">Your Total will be?</button>
+                        <button className="btn btn-dark w-100 mt-2">Your Total</button>
                         </div>
                      )}
                  </div>
