@@ -9,7 +9,7 @@
 }
 
 :root{
-  --primary-color: #ccc7c7;
+  --primary-color: #cec9e9;
   --black-color: #000;
   --white-color: #fff;
    --text-color: #fff;
@@ -59,4 +59,31 @@ body{
   position: absolute;
   top: 0;
   right: -60%;
+}
+.cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 350px;
+  height: 100vh;
+  background-color: var(--white-color);
+  box-shadow: -2px 0 8px rgb(0, 0, 0, 0.5);
+  transition: right 0.3s ease-in-out;
+  z-index: 1500;
+  overflow-y: auto;
+}
+.cart-sidebar.open{
+  right: 0;
+}
+.cart-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid var(--primary-color);
+}
+.cart-body{
+  height: 82vh;
+  padding: 25px;
+  overflow-y: scroll;
 }
