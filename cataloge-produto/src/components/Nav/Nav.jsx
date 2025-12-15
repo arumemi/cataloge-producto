@@ -42,13 +42,13 @@ function Nav() {
     <>
     <div className="px-5 bg-light">
         <nav className="navbar navbar-light justify-content-between px-5 w-100">
-            <a href="#" className='navbar-brand fs-6 fw-bold  '>D.O.T.M.A.N</a>
+            <a href="#" className='navbar-brand fs-6 fw-bold'>HOME</a>
 
             <div className="product-search flex-grow-1 d-flex justify-content-center">
                 <input
                  type="text" 
                  className='form-control'
-                 placeholder='Pesquisar produto . . .'
+                 placeholder='Search for products . . .'
                  style={{maxWidth:'500px'}}
                  onChange={(e) => window.dispatchEvent(new CustomEvent('searchQueryChanged', { detail: e.target.value }))}
                  />

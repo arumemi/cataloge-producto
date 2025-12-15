@@ -5,7 +5,7 @@
     "price": "180,000",
     "description": "6.5-inch display, 128GB storage, octa-core processor.",
     "category": "Electronics",
-    "tag": "smartphone",
+    "tag": "New",
     "image": "/phone-pics/Andriod 1.jpg",
     "secondImage": "/phone-pics/Andriod-11.jpg"
   },
@@ -15,7 +15,7 @@
     "price": "120,000",
     "description": "Compact Android phone with excellent battery life.",
     "category": "Electronics",
-    "tag": "smartphone",
+    "tag": "Sale",
     "image": "/phone-pics/Andriod-2.jpg",
     "secondImage": "/phone-pics/Andriod-12.jpg"
   },
@@ -25,7 +25,7 @@
     "price": "350,000",
     "description": "Flagship Apple phone with great camera and performance.",
     "category": "Electronics",
-    "tag": "smartphone",
+    "tag": "New",
     "image": "/phone-pics/Apple 1.jpg",
     "secondImage": "/phone-pics/Apple-2.jpg"
   },
@@ -35,7 +35,7 @@
     "price": "450,000",
     "description": "High-refresh display, dedicated GPU, advanced cooling.",
     "category": "Electronics",
-    "tag": "laptop",
+    "tag": "Sale",
     "image": "/phone-pics/Laptop-1.jpg",
     "secondImage": "/phone-pics/Laptop-2.jpg"
   },
@@ -45,7 +45,7 @@
     "price": "320,000",
     "description": "Lightweight laptop with long battery life.",
     "category": "Electronics",
-    "tag": "laptop",
+    "tag": "Sales",
     "image": "/phone-pics/Laptop.jpg",
     "secondImage": "/phone-pics/Macbook-1.jpg"
   },
@@ -55,7 +55,7 @@
     "price": "95,000",
     "description": "10-inch tablet for media and light productivity.",
     "category": "Electronics",
-    "tag": "tablet",
+    "tag": "Sales",
     "image": "/phone-pics/Tab-1.jpg",
     "secondImage": "/phone-pics/Tab-2.jpg"
   },
@@ -65,7 +65,7 @@
     "price": "65,000",
     "description": "Affordable refurbished smartphone in good condition.",
     "category": "Electronics",
-    "tag": "smartphone",
+    "tag": "New",
     "image": "/phone-pics/phone1.jpg",
     "secondImage": "/phone-pics/phone-case.jpg"
   },
@@ -75,7 +75,7 @@
     "price": "220,000",
     "description": "Balanced phone for demanding users.",
     "category": "Electronics",
-    "tag": "smartphone",
+    "tag": "limited",
     "image": "/phone-pics/Android-30.jpg",
     "secondImage": "/phone-pics/Android-13.jpg"
   },
@@ -85,7 +85,7 @@
     "price": "260,000",
     "description": "Excellent camera phone for photography enthusiasts.",
     "category": "Electronics",
-    "tag": "smartphone",
+    "tag": "Out of stock",
     "image": "/phone-pics/Andriod-14.jpg",
     "secondImage": "/phone-pics/Andriod-15.jpg"
   },
@@ -95,7 +95,7 @@
     "price": "180,000",
     "description": "Large tablet with stylus support.",
     "category": "Electronics",
-    "tag": "tablet",
+    "tag": "Sale",
     "image": "/phone-pics/tab-5.jpg",
     "secondImage": "/phone-pics/tab-6.jpg"
   },
@@ -105,7 +105,7 @@
     "price": "620,000",
     "description": "Lightweight MacBook for professionals and students.",
     "category": "Electronics",
-    "tag": "laptop",
+    "tag": "New",
     "image": "/phone-pics/Macbook-1.jpg",
     "secondImage": "/phone-pics/Laptop-11.jpg"
   },
@@ -115,7 +115,7 @@
     "price": "48,000",
     "description": "Entry-level smartphone for basic use.",
     "category": "Electronics",
-    "tag": "smartphone",
+    "tag": "New",
     "image": "/phone-pics/andriod-25.jpg",
     "secondImage": "/phone-pics/andriod-26.jpg"
   }
