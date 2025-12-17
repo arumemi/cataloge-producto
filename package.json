@@ -1,0 +1,8 @@
+{
+  "name": "cataloge-producto-root",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix ./cataloge-produto run dev",
+    "start": "npm --prefix ./cataloge-produto run dev"
+  }
+}

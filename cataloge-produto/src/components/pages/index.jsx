@@ -35,6 +35,9 @@ const normalize = (p) => {
 function Index() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterSortOption, setFilterSortOption] = useState("all");
+  const [newName, setNewName] = useState("");
+  const [newPrice, setNewPrice] = useState("");
+  const [newDescription, setNewDescription] = useState("");
 
   // listen to search events from Nav (custom event)
   useEffect(() => {
@@ -45,7 +48,23 @@ function Index() {
       window.removeEventListener("searchQueryChanged", handleSearchQuery);
   }, []);
 
-  const products = useMemo(() => productData.map(normalize), []);
+  // simulate fetching products on mount
+  useEffect(() => {
+    setLoading(true);
+    const t = setTimeout(() => {
+      try {
+        setProducts(productData.map(normalize));
+      } finally {
+        setLoading(false);
+      }
+    }, 800); // simulate network delay
+
+    return () => clearTimeout(t);
+  }, []);
+
+  // store normalized products in state so we can modify them later if needed
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const displayedProducts = useMemo(() => {
     let filtered = [...products];
@@ -98,8 +117,47 @@ function Index() {
       window.dispatchEvent(new Event("cartUpdated"));
       toast.success(`${product.name} Added to cart`);
     }
-  }
-     
+  };
+
+  // add a new product from the quick form
+  const addProduct = (e) => {
+    e.preventDefault();
+    if (!newName.trim()) return;
+
+    const product = {
+      id: Date.now(),
+      name: newName.trim(),
+      price: newPrice.trim() || "₦0.00",
+      description: newDescription.trim(),
+      image: "",
+      tag: "",
+    };
+
+    setProducts((p) => [product, ...p]);
+    setNewName("");
+    setNewPrice("");
+    setNewDescription("");
+    toast.success(`${product.name} added`);
+  };
+
+  const removeProduct = (id) => {
+    setProducts((p) => p.filter((x) => x.id !== id));
+    toast.info(`Product removed`);
+  };
+
+  const editProduct = (id) => {
+    const existing = products.find((p) => p.id === id);
+    if (!existing) return;
+    const name = prompt("New name", existing.name) ?? existing.name;
+    const price = prompt("New price", existing.price) ?? existing.price;
+    const description =
+      prompt("New description", existing.description) ?? existing.description;
+
+    setProducts((p) =>
+      p.map((it) => (it.id === id ? { ...it, name, price, description } : it))
+    );
+    toast.success(`${name} updated`);
+  };
 
   return (
     <>
@@ -108,6 +166,35 @@ function Index() {
           <h1 className="text-dark py-4 fw-semibold">Products</h1>
 
           <div className="container my-4">
+            {/* quick add form to mutate products state */}
+            <form onSubmit={addProduct} className="mb-3">
+              <div className="d-flex gap-2 flex-wrap">
+                <input
+                  className="form-control"
+                  placeholder="Product name"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  style={{ minWidth: 200 }}
+                />
+                <input
+                  className="form-control"
+                  placeholder="Price"
+                  value={newPrice}
+                  onChange={(e) => setNewPrice(e.target.value)}
+                  style={{ width: 140 }}
+                />
+                <input
+                  className="form-control"
+                  placeholder="Short description"
+                  value={newDescription}
+                  onChange={(e) => setNewDescription(e.target.value)}
+                  style={{ minWidth: 240 }}
+                />
+                <button className="btn btn-primary" type="submit">
+                  Add Product
+                </button>
+              </div>
+            </form>
             <div className="d-flex justify-content-between align-items-center flex-wrap gap-3">
               <div className="text-muted" style={{ fontSize: "1.1rem" }}>
                 Showing <strong>{displayedProducts.length}</strong> product
@@ -130,15 +217,19 @@ function Index() {
                   <option value="all">All PRODUCTS</option>
                   <option value="low">Price: Low to High</option>
                   <option value="high">Price: High to Low</option>
-                  <option value="Sale">Sale Product</option>
-                  <option value="New">New Products</option>
+                  <option value="sale">Sale Product</option>
+                  <option value="new">New Products</option>
                 </select>
               </div>
             </div>
           </div>
 
           <div className="row">
-            {displayedProducts.length === 0 ? (
+            {loading ? (
+              <div className="col-12 text-center py-5">
+                <div className="text-muted">Loading...</div>
+              </div>
+            ) : displayedProducts.length === 0 ? (
               <div className="col-12">
                 <div className="alert alert-danger text-center">
                   No products found matching your search
@@ -149,8 +240,8 @@ function Index() {
                 <div className="col-md-3 mb-4" key={product.id}>
                   <div className="product-item text-center position-relative">
                     <div className="image-wrapper w-100 position-relative overflow-hidden">
-                      <img src={product.image} className="img-fluid"alt=""/>
-                      
+                      <img src={product.image} className="img-fluid" alt="" />
+
                       {/* CORRECTION FOR FILTERS SHOULD COME HERE LATER */}
                       <div className="product-icons gap-3">
                         <div
@@ -159,19 +250,49 @@ function Index() {
                         >
                           <i className="bi bi-cart fs-5"></i>
                         </div>
+                        <div
+                          className="product-icon"
+                          onClick={() => editProduct(product.id)}
+                          title="Edit"
+                        >
+                          <i className="bi bi-pencil fs-5"></i>
+                        </div>
+                        <div
+                          className="product-icon"
+                          onClick={() => removeProduct(product.id)}
+                          title="Remove"
+                        >
+                          <i className="bi bi-trash fs-5"></i>
+                        </div>
                       </div>
-                    {product.tag && (
-                      <span className={`tag badge text-white ${product.tag === 'New' ? 'bg-danger' : product.tag === 'Out of stock' ? 'bg-secondary' : product.tag === 'limited' ? 'bg-warning text-dark' : 'bg-primary'}`}>{product.tag}</span>
-                    )}
+                      {product.tag && (
+                        <span
+                          className={`tag badge text-white ${
+                            product.tag === "New"
+                              ? "bg-danger"
+                              : product.tag === "Out of stock"
+                              ? "bg-secondary"
+                              : product.tag === "limited"
+                              ? "bg-warning text-dark"
+                              : "bg-primary"
+                          }`}
+                        >
+                          {product.tag}
+                        </span>
+                      )}
                     </div>
                     <div className="product-content pt-3">
                       {product.oldprice ? (
-                          <span className="price">
-                              <span className="text-muted text-decoration-line-through me-3">{product.oldprice}</span>
-                              <span className="fw-bold text-danger">{product.price}</span>
+                        <span className="price">
+                          <span className="text-muted text-decoration-line-through me-3">
+                            {product.oldprice}
                           </span>
+                          <span className="fw-bold text-danger">
+                            {product.price}
+                          </span>
+                        </span>
                       ) : (
-                          <span className="price">{product.price}</span>
+                        <span className="price">{product.price}</span>
                       )}
                       <h3 className="title pt-1">{product.name}</h3>
                     </div>
